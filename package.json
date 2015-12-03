@@ -1,0 +1,24 @@
+{
+  "name": "helphelp",
+  "version": "1.0.0",
+  "description": "Quick poll app :)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weejh/helphelp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/weejh/helphelp/issues"
+  },
+  "homepage": "https://github.com/weejh/helphelp#readme",
+  "dependencies": {
+    "express": "^4.13.3",
+    "mongoose": "^4.2.9",
+    "standard": "^5.4.1"
+  }
+}

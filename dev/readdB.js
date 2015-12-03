@@ -1,36 +1,34 @@
-function dBread (quesTion) {
+exports.dBread = function (quesTion) {
   const mongoose = require('mongoose')
-  const dataBase = 'votedate'
+  const dataBase = 'votedata'
   const collectionName = 'votes'
   const dbUri = 'mongodb://' +
-    process.env.EXPRESSAPI_MONGODB_USER + ':' +
-    process.env.EXPRESSAPI_MONGODB_PASSWORD +
+    process.env.MONGODB_USER + ':' +
+    process.env.MONGODB_PASSWORD +
     '@ds061984.mongolab.com:61984/' + dataBase
 
-  mongoose.connect(dbUri)
+  const connection = mongoose.createConnection(dbUri)
 
-  console.log('in database module')
-
-  var Vote = mongoose.model(collectionName, {
-    question: String,
+  const VoteSchema = mongoose.Schema({
+    questions: String,
     voteA: Number,
     voteB: Number
   })
 
+  var Vote = connection.model(collectionName, VoteSchema)
+
   const voteDatamatch = {
-    'question': quesTion
+    'questions': quesTion
   }
 
   const voteDatarequired = 'voteA voteB'
 
+  var voteData
   Vote.findOne(voteDatamatch, voteDatarequired, function (err, voteData) {
     if (err) return console.error(err)
-    return ({
-      question: voteData.question,
-      voteA: voteData.voteA,
-      voteB: voteData.voteB
-    })
+    voteData = voteData
+    console.log('in read module, read data is ' + voteData)
+    mongoose.disconnect()
   })
+  return voteData
 }
-
-module.export = dBread

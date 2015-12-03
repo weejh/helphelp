@@ -1,32 +1,40 @@
-function dBsave (quesTion, votEA, votEB) {
+exports.dBsave = function (quesTion, votEA, votEB) {
   const mongoose = require('mongoose')
-  const dataBase = 'votedate'
+  const dataBase = 'votedata'
   const collectionName = 'votes'
   const dbUri = 'mongodb://' +
-    process.env.EXPRESSAPI_MONGODB_USER + ':' +
-    process.env.EXPRESSAPI_MONGODB_PASSWORD +
+    process.env.MONGODB_USER + ':' +
+    process.env.MONGODB_PASSWORD +
     '@ds061984.mongolab.com:61984/' + dataBase
 
-  mongoose.connect(dbUri)
+  const connection = mongoose.createConnection(dbUri)
 
-  console.log('in database module')
-
-  var Vote = mongoose.model(collectionName, {
-    question: String,
+  const VoteSchema = mongoose.Schema({
+    questions: String,
     voteA: Number,
     voteB: Number
   })
 
-  const voteData = new Vote({
-    question: quesTion,
-    voteA: votEA,
-    voteB: votEB
-  })
+  var Vote = connection.model(collectionName, VoteSchema)
 
-  voteData.save(function (err) {
+  const voteDatarequired = {
+    questions: quesTion
+  }
+
+  const voteDataupdate = {
+    'voteA': votEA,
+    'voteB': votEB
+  }
+
+  const voteDatastatus = {
+    new: true
+  }
+
+  console.log('in database update module')
+
+  Vote.findOneAndUpdate(voteDatarequired, voteDataupdate, voteDatastatus, function (err) {
     if (err) return console.error(err)
-    return console.log('save to dB !!!')
+// console.log('save to dB !!!')
+    mongoose.disconnect()
   })
 }
-
-module.export = dBsave

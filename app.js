@@ -1,8 +1,10 @@
-var choiceOne = document.getElementById('button1')
-var choiceTwo = document.getElementById('button2')
+var choiceOne = document.getElementById('choice1')
+var choiceTwo = document.getElementById('choice2')
 
 var totalOne = 0
 var totalTwo = 0
+
+document.querySelector('#score1').textContent = 1
 
 // Add vote function - Button 1
 function addVoteOne () {
